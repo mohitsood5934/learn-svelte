@@ -45,9 +45,26 @@ Parent to child
 
 <script>
   import ColorPicker from "./ColorPicker.svelte";
-import Slider from "./Slider.svelte";
+  import Container from "./Container.svelte";
+  import DomComp from "./DOMComp.svelte";
+  import Form from "./Form.svelte";
+  import Slider from "./Slider.svelte";
+
+  function onFormSubmit(e) {
+    console.log(e, "event detail");
+    const { name, age } = e.detail;
+    console.log(name, age, "name & age");
+  }
 </script>
 
-<Slider />
+<!-- <Slider />
 <h2 style="text-align: center;">Color Picker</h2>
-<ColorPicker />
+<ColorPicker /> -->
+<!-- <DomComp /> -->
+<!-- <Form on:form_submit={onFormSubmit} /> -->
+<Container
+  on:form_submit={onFormSubmit}
+  on:click={(e) => {
+    console.log("button clicked!");
+  }}
+/>
