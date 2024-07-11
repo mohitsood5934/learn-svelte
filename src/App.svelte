@@ -49,12 +49,26 @@ Parent to child
   import DomComp from "./DOMComp.svelte";
   import Form from "./Form.svelte";
   import Slider from "./Slider.svelte";
+  import Child from "./Child.svelte";
+  import Reactive from "./Reactive.svelte";
+  import Template from "./Template.svelte";
+  import Each from "./Each.svelte";
+  import Await from "./Await.svelte";
+  import MtgCounter from "./MtgCounter.svelte";
+  import LifeCycle from "./LifeCycle.svelte";
+  import LifeCycleTwo from "./LifeCycleTwo.svelte";
+  import Stores from "./Stores.svelte";
 
   function onFormSubmit(e) {
     console.log(e, "event detail");
     const { name, age } = e.detail;
     console.log(name, age, "name & age");
   }
+
+  function customEvent(e) {
+    console.log(e.detail.message, 'this is a message');
+  }
+  let show = false;
 </script>
 
 <!-- <Slider />
@@ -62,9 +76,23 @@ Parent to child
 <ColorPicker /> -->
 <!-- <DomComp /> -->
 <!-- <Form on:form_submit={onFormSubmit} /> -->
-<Container
+<!-- <Container
   on:form_submit={onFormSubmit}
   on:click={(e) => {
     console.log("button clicked!");
   }}
 />
+
+<Child on:custom_event={customEvent}/> -->
+<!-- <Reactive /> -->
+<!-- <Template /> -->
+<!-- <Each /> -->
+<!-- <Await /> -->
+<!-- <MtgCounter /> -->
+
+<input type="checkbox" bind:checked={show} />
+{#if show}
+<!-- <LifeCycle /> -->
+<!-- <LifeCycleTwo /> -->
+<Stores />
+{/if}
