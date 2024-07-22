@@ -1,5 +1,5 @@
 # learn-svelte
-
+npm init vite@latest
 ## Lifecycle Hooks
 <ul>
 <li>onMount</li>

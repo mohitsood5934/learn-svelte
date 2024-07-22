@@ -57,7 +57,20 @@ Parent to child
   import MtgCounter from "./MtgCounter.svelte";
   import LifeCycle from "./LifeCycle.svelte";
   import LifeCycleTwo from "./LifeCycleTwo.svelte";
-  import Stores from "./Stores.svelte";
+  import GeoLocation from "./GeoLocation.svelte";
+  import countStore from "./stores/count.store";
+  import customCountStore from "./stores/custom.count.store";
+  import {
+    storeOne,
+    storeTwo,
+    storeSumEven,
+    storeOneEven,
+  } from "./stores/derived.store";
+  import { onDestroy } from "svelte";
+  import ContactList from "./ContactList.svelte";
+  import Action from "./Action.svelte";
+  import Slot from "./Slot.svelte";
+  import DraggableSlot from "./DraggableSlot.svelte";
 
   function onFormSubmit(e) {
     console.log(e, "event detail");
@@ -66,9 +79,41 @@ Parent to child
   }
 
   function customEvent(e) {
-    console.log(e.detail.message, 'this is a message');
+    console.log(e.detail.message, "this is a message");
   }
   let show = false;
+
+  // setTimeout(() => {
+  //   countStore.set(2000);
+  // },2000)
+
+  function add() {
+    // writable store
+    countStore.update((n) => {
+      return n + 1;
+    });
+  }
+
+  function minus() {
+    // writable store
+    countStore.update((n) => {
+      return n - 1;
+    });
+  }
+
+  setTimeout(() => {
+    countStore.update((n) => {
+      return n + 300;
+    });
+  }, 2000);
+
+  const unsub = countStore.subscribe((n) => {
+    console.log(n, "count store");
+  });
+
+  onDestroy(() => {
+    unsub();
+  });
 </script>
 
 <!-- <Slider />
@@ -92,7 +137,45 @@ Parent to child
 
 <input type="checkbox" bind:checked={show} />
 {#if show}
-<!-- <LifeCycle /> -->
-<!-- <LifeCycleTwo /> -->
-<Stores />
+  <!-- <LifeCycle /> -->
+  <!-- <LifeCycleTwo /> -->
+
+  <h2>Readable Store</h2>
+  <GeoLocation />
+
+  <hr />
+  <h2>Writable Store</h2>
+  <h3>{$countStore}</h3>
+  <button on:click={add}>+</button>
+  <button on:click={minus}>-</button>
+  <hr />
+  <h2>Custom Store</h2>
+  <h3>{$customCountStore}</h3>
+  <button on:click={customCountStore.addOne}>+</button>
+  <button on:click={customCountStore.minusOne}>-</button>
+  <button on:click={customCountStore.multiplyByThree}>3 * </button>
+  <hr />
+  <h2>Derived Store</h2>
+  <h2>Sum of store is even: {$storeSumEven}</h2>
+  <h3>Store One {$storeOne}</h3>
+  <input type="range" bind:value={$storeOne} min="0" max="10" />
+  <h3>Store Two {$storeTwo}</h3>
+  <input type="range" bind:value={$storeTwo} min="0" max="10" />
+  <h3>Store One Even {$storeOneEven}</h3>
+  <hr />
+  <h3>Contact List Challenge</h3>
+  <ContactList />
 {/if}
+<!-- 
+<Action /> -->
+
+<!-- <Slot>
+  <h1 slot="top">Hello</h1>
+  <div slot="bottom">
+    <p>Hello , how are you doing ??</p>
+  </div>
+</Slot> -->
+
+<DraggableSlot left={30} top={30} >
+<h1>Hello</h1>
+</DraggableSlot>
